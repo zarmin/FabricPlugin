@@ -136,7 +136,11 @@ public class FabricPlugin extends CordovaPlugin {
 						for(int i = 0; i < stackTrace.length(); i++) {
 	 						JSONObject elem = stackTrace.getJSONObject(i);
 
-	 						trace[i] = new StackTraceElement("undefined", elem.getString("functionName"),elem.getString("fileName"), elem.getInt("lineNumber"));
+							String declaringClass = "undefined"; 
+							if (!elem.isNull("declaringClass")) {
+								declaringClass = elem.getString("declaringClass");
+							}
+	 						trace[i] = new StackTraceElement(declaringClass, elem.getString("functionName"),elem.getString("fileName"), elem.getInt("lineNumber"));
 	 					}
 
 						JavaScriptException ex = new JavaScriptException(data.getString(0));
